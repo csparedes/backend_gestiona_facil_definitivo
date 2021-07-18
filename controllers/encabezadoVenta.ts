@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
+
 import EncabezadoVentas from "../models/encabezadoVenta";
 
 export const getEncabezadosVentas = async (req: Request, res: Response) => {
@@ -104,3 +105,25 @@ export const deleteEncabezadoVenta = async (req: Request, res: Response) => {
     encabezado: buscarEncabezado,
   });
 };
+
+
+
+export const getObtenerUltimoComprobante = async (req: Request, res: Response) => {
+  
+  const buscarEncabezado = await EncabezadoVentas.findOne({
+    attributes: 
+      [[Sequelize.fn('max',Sequelize.col('comprobante')) as any, 'ultimoComprobante']],
+
+  });
+
+  if (!buscarEncabezado) {
+    return res.status(400).json({
+      ok: false,
+      msg: 'Ha ocurrido un grave error al consultar comprobante'
+    })
+  }
+
+  res.json({
+    comprobante: buscarEncabezado
+  })
+}

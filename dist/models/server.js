@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const usuarios_1 = __importDefault(require("../routes/usuarios"));
 const login_1 = __importDefault(require("../routes/login"));
 const categorias_1 = __importDefault(require("../routes/categorias"));
@@ -18,7 +19,7 @@ const proveedores_1 = __importDefault(require("../routes/proveedores"));
 const kardex_1 = __importDefault(require("../routes/kardex"));
 const ventas_1 = __importDefault(require("../routes/ventas"));
 const compras_1 = __importDefault(require("../routes/compras"));
-const cors_1 = __importDefault(require("cors"));
+const notificaciones_1 = __importDefault(require("../routes/notificaciones"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -36,6 +37,7 @@ class Server {
             kardex: "/api/kardex",
             ventas: "/api/ventas",
             compras: "/api/compras",
+            notificaciones: "/api/notificaciones",
         };
         this.app = express_1.default();
         this.port = process.env.PORT;
@@ -44,6 +46,7 @@ class Server {
         this.middlewares();
         this.routes();
         this.socket();
+        this.firebaseCloudMessaging();
     }
     middlewares() {
         this.app.use(cors_1.default());
@@ -65,6 +68,7 @@ class Server {
         this.app.use(this.apiPaths.kardex, kardex_1.default);
         this.app.use(this.apiPaths.ventas, ventas_1.default);
         this.app.use(this.apiPaths.compras, compras_1.default);
+        this.app.use(this.apiPaths.notificaciones, notificaciones_1.default);
     }
     socket() {
         this.io.on("connection", (client) => {
@@ -72,6 +76,16 @@ class Server {
             client.on("disconnection", () => {
                 console.log(`Cliente desconectado`);
             });
+        });
+    }
+    firebaseCloudMessaging() {
+        const admin = require("firebase-admin");
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                project_id: process.env['FIREBASE_PROJECT_ID'],
+                private_key: process.env['FIREBASE_PRIVATE_KEY'],
+                client_email: process.env['FIREBASE_CLIENT_EMAIL'],
+            }),
         });
     }
     listen() {

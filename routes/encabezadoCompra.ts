@@ -3,6 +3,7 @@ import {
   deleteEncabezadoCompra,
   getEncabezadoPorQuery,
   getEncabezadosCompra,
+  getObtenerUltimoComprobante,
   postEncabezadoCompra,
   putEncabezadoCompra,
 } from "../controllers/encabezadoCompra";
@@ -13,6 +14,7 @@ const router = Router();
 
 router.get("/", [validarJWT, validarCampos], getEncabezadosCompra);
 router.get("/:query", [validarJWT, validarCampos], getEncabezadoPorQuery);
+router.get('/consulta/ultimoEncabezado', [validarJWT, validarCampos], getObtenerUltimoComprobante);
 router.post("/", [validarJWT, validarCampos], postEncabezadoCompra);
 router.put("/:comprobante", [validarJWT, validarCampos], putEncabezadoCompra);
 router.delete(

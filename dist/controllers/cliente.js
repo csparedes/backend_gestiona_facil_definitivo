@@ -18,17 +18,17 @@ const cliente_1 = __importDefault(require("../models/cliente"));
 const getClientes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clientes = yield cliente_1.default.findAll({
         where: {
-            estado: true
-        }
+            estado: true,
+        },
     });
     if (!clientes) {
         return res.status(400).json({
-            msg: "No hay clientes disponibles"
+            msg: "No hay clientes disponibles",
         });
     }
     res.json({
         msg: "Lista de Clientes",
-        clientes
+        clientes,
     });
 });
 exports.getClientes = getClientes;
@@ -37,19 +37,20 @@ const getClientesPorIdentificacion = (req, res) => __awaiter(void 0, void 0, voi
     const clientes = yield cliente_1.default.findAll({
         where: {
             identificacion: {
-                [sequelize_1.Op.like]: `%${identificacion}%`
+                [sequelize_1.Op.like]: `%${identificacion}%`,
             },
-            estado: true
-        }
+            estado: true,
+        },
+        order: [["createdAt", "DESC"]],
     });
     if (!clientes) {
         return res.status(400).json({
-            msg: "No hay cliente disponible"
+            msg: "No hay cliente disponible",
         });
     }
     res.json({
         msg: "Lista de Clientes",
-        clientes
+        clientes,
     });
 });
 exports.getClientesPorIdentificacion = getClientesPorIdentificacion;
@@ -58,12 +59,12 @@ const postCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const clienteBuscado = yield cliente_1.default.findOne({
         where: {
             identificacion,
-            estado: true
-        }
+            estado: true,
+        },
     });
     if (clienteBuscado) {
         return res.status(400).json({
-            msg: "Ese cliente ya existe"
+            msg: "Ese cliente ya existe",
         });
     }
     const nuevoCliente = {
@@ -71,13 +72,13 @@ const postCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         identificacion,
         domicilio,
         email,
-        estado: true
+        estado: true,
     };
     const cliente = yield cliente_1.default.build(nuevoCliente);
     cliente.save();
     res.json({
         msg: "Se ha creado un nuevo Cliente",
-        cliente
+        cliente,
     });
 });
 exports.postCliente = postCliente;
@@ -88,7 +89,7 @@ const putCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     });
     if (!clienteActual) {
         return res.status(401).json({
-            msg: "No existe el cliente con la identificación: " + identificacion
+            msg: "No existe el cliente con la identificación: " + identificacion,
         });
     }
     const { nombre, domicilio, email } = req.body;
@@ -97,12 +98,12 @@ const putCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         identificacion,
         domicilio,
         email,
-        estado: true
+        estado: true,
     };
     yield clienteActual.update(clienteNuevo);
     res.json({
         msg: "Se ha actualizado el cliente",
-        cliente: clienteActual
+        cliente: clienteActual,
     });
 });
 exports.putCliente = putCliente;
@@ -113,13 +114,13 @@ const deleteCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
     if (!clienteActual) {
         return res.status(401).json({
-            msg: "No existe el cliente con la identificación: " + identificacion
+            msg: "No existe el cliente con la identificación: " + identificacion,
         });
     }
     yield clienteActual.update({ estado: false });
     res.json({
         msg: "Se ha eliminado el cliente",
-        cliente: clienteActual
+        cliente: clienteActual,
     });
 });
 exports.deleteCliente = deleteCliente;

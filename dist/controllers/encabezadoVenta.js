@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteEncabezadoVenta = exports.putEncabezadoVenta = exports.postEncabezadoVenta = exports.getEncabezadoPorQuery = exports.getEncabezadosVentas = void 0;
+exports.getObtenerUltimoComprobante = exports.deleteEncabezadoVenta = exports.putEncabezadoVenta = exports.postEncabezadoVenta = exports.getEncabezadoPorQuery = exports.getEncabezadosVentas = void 0;
+const sequelize_1 = require("sequelize");
 const encabezadoVenta_1 = __importDefault(require("../models/encabezadoVenta"));
 const getEncabezadosVentas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const encabezados = yield encabezadoVenta_1.default.findAll({
@@ -113,4 +114,19 @@ const deleteEncabezadoVenta = (req, res) => __awaiter(void 0, void 0, void 0, fu
     });
 });
 exports.deleteEncabezadoVenta = deleteEncabezadoVenta;
+const getObtenerUltimoComprobante = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const buscarEncabezado = yield encabezadoVenta_1.default.findOne({
+        attributes: [[sequelize_1.Sequelize.fn('max', sequelize_1.Sequelize.col('comprobante')), 'ultimoComprobante']],
+    });
+    if (!buscarEncabezado) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Ha ocurrido un grave error al consultar comprobante'
+        });
+    }
+    res.json({
+        comprobante: buscarEncabezado
+    });
+});
+exports.getObtenerUltimoComprobante = getObtenerUltimoComprobante;
 //# sourceMappingURL=encabezadoVenta.js.map

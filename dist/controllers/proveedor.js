@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProveedor = exports.putProveedor = exports.postProveedor = exports.getProveedorPorNombre = exports.getProveedores = void 0;
+exports.deleteProveedor = exports.putProveedor = exports.postProveedor = exports.getProveedoresPorNombre = exports.getProveedores = void 0;
 const sequelize_1 = require("sequelize");
 const proveedor_1 = __importDefault(require("../models/proveedor"));
 const getProveedores = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,24 +28,28 @@ const getProveedores = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.getProveedores = getProveedores;
-const getProveedorPorNombre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getProveedoresPorNombre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre } = req.params;
-    const proveedor = yield proveedor_1.default.findOne({
+    const proveedores = yield proveedor_1.default.findAll({
         where: {
-            [sequelize_1.Op.and]: [{ estado: true }, { nombre }],
+            nombre: {
+                [sequelize_1.Op.like]: `%${nombre}%`,
+            },
+            estado: true,
         },
+        order: [["nombre", "ASC"]],
     });
-    if (!proveedor) {
+    if (!proveedores) {
         return res.status(400).json({
             msg: "No se encontró ningún proveedor",
         });
     }
     res.json({
-        msg: "Proveedor encontrado",
-        proveedor,
+        msg: "Proveedores encontrado",
+        proveedores,
     });
 });
-exports.getProveedorPorNombre = getProveedorPorNombre;
+exports.getProveedoresPorNombre = getProveedoresPorNombre;
 const postProveedor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre, identificacion, domicilio, email } = req.body;
     const nuevoProveedor = {

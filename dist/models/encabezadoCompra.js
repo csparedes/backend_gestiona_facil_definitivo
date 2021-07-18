@@ -7,7 +7,7 @@ const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../database/connection"));
 const EncabezadoCompra = connection_1.default.define('EncabezadoCompra', {
     comprobante: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.INTEGER
     },
     proveedoreId: {
         type: sequelize_1.DataTypes.STRING

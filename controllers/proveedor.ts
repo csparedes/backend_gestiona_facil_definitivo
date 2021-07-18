@@ -16,23 +16,28 @@ export const getProveedores = async (req: Request, res: Response) => {
   });
 };
 
-export const getProveedorPorNombre = async (req: Request, res: Response) => {
+export const getProveedoresPorNombre = async (req: Request, res: Response) => {
   const { nombre } = req.params;
-  const proveedor = await Proveedor.findOne({
+  const proveedores = await Proveedor.findAll({
     where: {
-      [Op.and]: [{ estado: true }, { nombre }],
+      nombre: {
+        [Op.like]: `%${nombre}%`,
+      },
+      estado: true,
     },
+    order: [["nombre", "ASC"]],
+    
   });
 
-  if (!proveedor) {
+  if (!proveedores) {
     return res.status(400).json({
       msg: "No se encontró ningún proveedor",
     });
   }
 
   res.json({
-    msg: "Proveedor encontrado",
-    proveedor,
+    msg: "Proveedores encontrado",
+    proveedores,
   });
 };
 

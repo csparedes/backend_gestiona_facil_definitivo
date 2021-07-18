@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   deleteProveedor,
   getProveedores,
-  getProveedorPorNombre,
+  getProveedoresPorNombre,
   postProveedor,
   putProveedor,
 } from "../controllers/proveedor";
@@ -12,7 +12,7 @@ import validarJWT from "../middlewares/validar-jwt";
 const router = Router();
 
 router.get("/", [validarJWT, validarCampos], getProveedores);
-router.get("/:nombre", [validarJWT, validarCampos], getProveedorPorNombre);
+router.get("/:nombre", [validarJWT, validarCampos], getProveedoresPorNombre);
 router.post("/", [validarJWT, validarCampos], postProveedor);
 router.put("/:identificacion", [validarJWT, validarCampos], putProveedor);
 router.delete("/:identificacion", [validarJWT, validarCampos], deleteProveedor);

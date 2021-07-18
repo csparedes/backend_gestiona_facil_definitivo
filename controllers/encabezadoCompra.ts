@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import EncabezadoCompra from "../models/encabezadoCompra";
 import Proveedor from "../models/proveedor";
 
@@ -121,3 +121,23 @@ export const deleteEncabezadoCompra = async (req: Request, res: Response) => {
     msg: "Se ha eliminado el encabezado de compra",
   });
 };
+
+export const getObtenerUltimoComprobante = async (req: Request, res: Response) => {
+  
+  const buscarEncabezado = await EncabezadoCompra.findOne({
+    attributes: 
+      [[Sequelize.fn('max',Sequelize.col('comprobante')) as any, 'ultimoComprobante']],
+
+  });
+
+  if (!buscarEncabezado) {
+    return res.status(400).json({
+      ok: false,
+      msg: 'Ha ocurrido un grave error al consultar comprobante'
+    })
+  }
+
+  res.json({
+    comprobante: buscarEncabezado
+  })
+}

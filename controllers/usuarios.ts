@@ -111,3 +111,21 @@ export const deleteUsuario = async (req: Request, res: Response) => {
     })
 
 };
+
+export const postTokenFirebase = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { token } = req.body;
+  const usuario = await Usuario.findByPk(id);
+  if (!usuario) {
+    return res.status(400).json({
+      msg: 'No se ha encontrado ningún usuario',
+    });
+  }
+
+  await usuario.update({ firebase: token });
+  res.json({
+    msg: 'Se ha asignado el token de firebase al usuario',
+    token,
+    usuario
+  })
+}

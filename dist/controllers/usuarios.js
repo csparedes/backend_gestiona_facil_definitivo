@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.postTokenFirebase = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 require('../models/asociasiones');
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const usuario_1 = __importDefault(require("../models/usuario"));
@@ -118,4 +118,21 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 exports.deleteUsuario = deleteUsuario;
+const postTokenFirebase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { token } = req.body;
+    const usuario = yield usuario_1.default.findByPk(id);
+    if (!usuario) {
+        return res.status(400).json({
+            msg: 'No se ha encontrado ningún usuario',
+        });
+    }
+    yield usuario.update({ firebase: token });
+    res.json({
+        msg: 'Se ha asignado el token de firebase al usuario',
+        token,
+        usuario
+    });
+});
+exports.postTokenFirebase = postTokenFirebase;
 //# sourceMappingURL=usuarios.js.map

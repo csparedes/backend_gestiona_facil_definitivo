@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import db from '../database/connection';
 const EncabezadoVentas = db.define('EncabezadoVentas', {
     comprobante: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
     },
     clienteId: {
         type: DataTypes.STRING

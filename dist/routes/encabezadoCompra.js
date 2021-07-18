@@ -10,6 +10,7 @@ const validar_jwt_1 = __importDefault(require("../middlewares/validar-jwt"));
 const router = express_1.Router();
 router.get("/", [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.getEncabezadosCompra);
 router.get("/:query", [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.getEncabezadoPorQuery);
+router.get('/consulta/ultimoEncabezado', [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.getObtenerUltimoComprobante);
 router.post("/", [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.postEncabezadoCompra);
 router.put("/:comprobante", [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.putEncabezadoCompra);
 router.delete("/:comprobante", [validar_jwt_1.default, validar_campos_1.default], encabezadoCompra_1.deleteEncabezadoCompra);

@@ -1,4 +1,6 @@
 import express, { Application } from "express";
+import cors from "cors";
+
 import rutasUsuario from "../routes/usuarios";
 import rutasLogin from "../routes/login";
 import rutasCategoria from "../routes/categorias";
@@ -13,7 +15,7 @@ import rutasProveedores from "../routes/proveedores";
 import rutasKardex from "../routes/kardex";
 import rutasVentas from "../routes/ventas";
 import rutasCompras from "../routes/compras";
-import cors from "cors";
+import rutasNotificaciones from "../routes/notificaciones";
 
 class Server {
   private app: Application;
@@ -35,6 +37,7 @@ class Server {
     kardex: "/api/kardex",
     ventas: "/api/ventas",
     compras: "/api/compras",
+    notificaciones: "/api/notificaciones",
   };
 
   constructor() {
@@ -45,6 +48,7 @@ class Server {
     this.middlewares();
     this.routes();
     this.socket();
+    this.firebaseCloudMessaging();
   }
 
   middlewares() {
@@ -67,6 +71,7 @@ class Server {
     this.app.use(this.apiPaths.kardex, rutasKardex);
     this.app.use(this.apiPaths.ventas, rutasVentas);
     this.app.use(this.apiPaths.compras, rutasCompras);
+    this.app.use(this.apiPaths.notificaciones, rutasNotificaciones);
   }
 
   socket() {
@@ -78,6 +83,17 @@ class Server {
       });
     });
   }
+  firebaseCloudMessaging() {
+    const admin = require("firebase-admin");
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        project_id: process.env['FIREBASE_PROJECT_ID'],
+        private_key: process.env['FIREBASE_PRIVATE_KEY'],
+        client_email: process.env['FIREBASE_CLIENT_EMAIL'],
+      }),
+    });
+  }
+
   listen() {
     this.server.listen(this.port, () => {
       console.log(

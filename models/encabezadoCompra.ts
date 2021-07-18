@@ -3,7 +3,7 @@ import db from '../database/connection';
 
 const EncabezadoCompra = db.define('EncabezadoCompra', {
     comprobante: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
     },
     proveedoreId: {
         type: DataTypes.STRING
