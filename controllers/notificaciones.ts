@@ -16,16 +16,12 @@ export const enviarNotificacion = async (req: Request, res: Response) => {
   const listaDispositivos: any[] = [];
   listaConsulta.forEach((value) => {
     //@ts-ignore
-    listaDispositivos.push(value["token"]);
-    //@ts-ignore
-    console.log(`${value['token']}`);
-    
+    listaDispositivos.push(value["token"]); 
   });
 
   const message = {
     data: {
-      producto: "Aqui va el producto",
-      //TODO: hacer notificación de producto a caducar, actalizacion y cuando falte producto
+      texto: "Una notificación de prueba desde NodeJs",
     },
 
     // tokens: registrationTokens,
