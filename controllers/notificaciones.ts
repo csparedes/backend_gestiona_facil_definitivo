@@ -17,6 +17,9 @@ export const enviarNotificacion = async (req: Request, res: Response) => {
   listaConsulta.forEach((value) => {
     //@ts-ignore
     listaDispositivos.push(value["token"]);
+    //@ts-ignore
+    console.log(`${value['token']}`);
+    
   });
 
   const message = {
@@ -86,7 +89,7 @@ export const notificacionProductosPorCaducarse = async (
   const listaDispositivos: any[] = [];
   listaConsulta.forEach((value) => {
     //@ts-ignore
-    listaDispositivos.push(value["token"]);
+    listaDispositivos.push(value["token"]);    
   });
 
   const listaProductosPorCaducarse = await productosPorCaducarse();

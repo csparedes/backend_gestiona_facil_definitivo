@@ -78,7 +78,7 @@ export const postListaProductosFacturaVenta = async (
     }
     //Actualizamos las existencias
     exis.update({ cantidad: cant });
-
+    
     //Añadimos al detalle de venta
     const detalleVenta = {
       comprobante,
