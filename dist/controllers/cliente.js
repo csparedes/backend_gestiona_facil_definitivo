@@ -20,6 +20,7 @@ const getClientes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         where: {
             estado: true,
         },
+        offset: 3
     });
     if (!clientes) {
         return res.status(400).json({

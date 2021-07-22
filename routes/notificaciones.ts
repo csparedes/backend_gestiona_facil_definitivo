@@ -2,9 +2,10 @@ import { Router } from "express";
 import {
   agregarTokenFirebase,
   enviarNotificacion,
+  notificacionBajoStock,
   notificacionCambioPrecioProducto,
   notificacionProductosPorCaducarse,
-} from "../controllers/test/notificaciones";
+} from "../controllers/notificaciones";
 import validarCampos from "../middlewares/validar-campos";
 import validarJWT from "../middlewares/validar-jwt";
 
@@ -25,6 +26,12 @@ router.post(
   "/actualizacionProducto",
   [validarJWT, validarCampos],
   notificacionCambioPrecioProducto
+);
+//notificar existencias con bajo stock
+router.post(
+    '/bajoStock',
+    [validarJWT, validarCampos],
+    notificacionBajoStock
 );
 
 export default router;

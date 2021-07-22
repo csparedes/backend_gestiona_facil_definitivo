@@ -41,6 +41,7 @@ export const getKardexExistencias = async (req: Request, res: Response) => {
       attributes: ["id", "nombre", "precioVenta", "codigo"],
     },
     attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
+    order: ['fechaCaducidad']
   });
   res.json({
     msg: "Lista de Existencias",

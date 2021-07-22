@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { postListaProductosFacturaVenta } from "../controllers/test/listaVentas";
+import { postListaProductosFacturaVenta } from "../controllers/listaVentas";
 import validarCampos from "../middlewares/validar-campos";
 import validarJWT from "../middlewares/validar-jwt";
 import { existeComprobante } from "../middlewares/validar-ventas";

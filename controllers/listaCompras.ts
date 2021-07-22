@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { Op } from "sequelize";
 
-import Producto from "../../models/producto";
-import KardexExistencia from "../../models/kardexExistencia";
-import KardexIngreso from "../../models/kardexIngreso";
-import DetalleCompra from "../../models/detalleCompra";
-import EncabezadoCompra from "../../models/encabezadoCompra";
+import Producto from "../models/producto";
+import KardexExistencia from "../models/kardexExistencia";
+import KardexIngreso from "../models/kardexIngreso";
+import DetalleCompra from "../models/detalleCompra";
+import EncabezadoCompra from "../models/encabezadoCompra";
 
 export const postListaProductosFacturaCompra = async (
   req: Request,

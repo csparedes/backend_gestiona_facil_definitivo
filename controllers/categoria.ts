@@ -6,7 +6,7 @@ export const getCategorias = async (req: Request, res: Response) => {
     where: {
       estado: true,
     },
-    attributes: ["nombre", "descripcion"],
+    attributes: ["id","nombre", "descripcion"],
     
   });
 

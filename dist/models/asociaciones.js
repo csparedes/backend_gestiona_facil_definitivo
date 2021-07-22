@@ -16,6 +16,8 @@ const proveedor_1 = __importDefault(require("./proveedor"));
 const encabezadoCompra_1 = __importDefault(require("./encabezadoCompra"));
 const detalleVenta_1 = __importDefault(require("./detalleVenta"));
 const detalleCompra_1 = __importDefault(require("./detalleCompra"));
+const encabezadoPedido_1 = __importDefault(require("./encabezadoPedido"));
+const detallePedido_1 = __importDefault(require("./detallePedido"));
 //Asociación de usuario Rol
 rol_1.default.hasOne(usuario_1.default);
 usuario_1.default.belongsTo(rol_1.default);
@@ -43,4 +45,10 @@ detalleVenta_1.default.belongsTo(producto_1.default);
 //Asociación de Detalle de Compra a Producto
 producto_1.default.hasOne(detalleCompra_1.default);
 detalleCompra_1.default.belongsTo(producto_1.default);
+//Asociación de Encabezado de pedido con proveedor
+proveedor_1.default.hasOne(encabezadoPedido_1.default);
+encabezadoPedido_1.default.belongsTo(proveedor_1.default);
+//Asociación de Detalle de Compra a Producto
+producto_1.default.hasOne(detallePedido_1.default);
+detallePedido_1.default.belongsTo(producto_1.default);
 //# sourceMappingURL=asociaciones.js.map

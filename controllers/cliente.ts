@@ -7,6 +7,7 @@ export const getClientes = async (req: Request, res: Response) => {
     where: {
       estado: true,
     },
+    offset: 3
   });
 
   if (!clientes) {

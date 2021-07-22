@@ -16,6 +16,9 @@ import rutasKardex from "../routes/kardex";
 import rutasVentas from "../routes/ventas";
 import rutasCompras from "../routes/compras";
 import rutasNotificaciones from "../routes/notificaciones";
+import rutasDetallePedido from "../routes/detallePedido";
+import rutasEncabezadoPedido from "../routes/encabezadoPedido";
+import rutasPedidos from "../routes/pedidos";
 
 class Server {
   private app: Application;
@@ -38,6 +41,9 @@ class Server {
     ventas: "/api/ventas",
     compras: "/api/compras",
     notificaciones: "/api/notificaciones",
+    detallePedido: "/api/detallePedido",
+    encabezadoPedido: "/api/encabezadoPedido",
+    pedidos: "/api/pedidos",
   };
 
   constructor() {
@@ -72,6 +78,9 @@ class Server {
     this.app.use(this.apiPaths.ventas, rutasVentas);
     this.app.use(this.apiPaths.compras, rutasCompras);
     this.app.use(this.apiPaths.notificaciones, rutasNotificaciones);
+    this.app.use(this.apiPaths.detallePedido, rutasDetallePedido);
+    this.app.use(this.apiPaths.encabezadoPedido, rutasEncabezadoPedido);
+    this.app.use(this.apiPaths.pedidos, rutasPedidos);
   }
 
   socket() {
@@ -87,9 +96,9 @@ class Server {
     const admin = require("firebase-admin");
     admin.initializeApp({
       credential: admin.credential.cert({
-        project_id: process.env['FIREBASE_PROJECT_ID'],
-        private_key: process.env['FIREBASE_PRIVATE_KEY'],
-        client_email: process.env['FIREBASE_CLIENT_EMAIL'],
+        project_id: process.env["FIREBASE_PROJECT_ID"],
+        private_key: process.env["FIREBASE_PRIVATE_KEY"],
+        client_email: process.env["FIREBASE_CLIENT_EMAIL"],
       }),
     });
   }

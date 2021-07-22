@@ -19,7 +19,7 @@ const getCategorias = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         where: {
             estado: true,
         },
-        attributes: ["nombre", "descripcion"],
+        attributes: ["id", "nombre", "descripcion"],
     });
     if (!categorias) {
         return res.status(401).json({

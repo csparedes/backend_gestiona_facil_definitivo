@@ -56,6 +56,7 @@ const getKardexExistencias = (req, res) => __awaiter(void 0, void 0, void 0, fun
             attributes: ["id", "nombre", "precioVenta", "codigo"],
         },
         attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
+        order: ['fechaCaducidad']
     });
     res.json({
         msg: "Lista de Existencias",

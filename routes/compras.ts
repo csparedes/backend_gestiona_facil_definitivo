@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { postListaProductosFacturaCompra } from '../controllers/test/listaCompras';
+import { postListaProductosFacturaCompra } from '../controllers/listaCompras';
 import validarCampos from '../middlewares/validar-campos';
 import validarJWT from '../middlewares/validar-jwt';
 

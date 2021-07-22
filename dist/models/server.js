@@ -20,6 +20,9 @@ const kardex_1 = __importDefault(require("../routes/kardex"));
 const ventas_1 = __importDefault(require("../routes/ventas"));
 const compras_1 = __importDefault(require("../routes/compras"));
 const notificaciones_1 = __importDefault(require("../routes/notificaciones"));
+const detallePedido_1 = __importDefault(require("../routes/detallePedido"));
+const encabezadoPedido_1 = __importDefault(require("../routes/encabezadoPedido"));
+const pedidos_1 = __importDefault(require("../routes/pedidos"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -38,6 +41,9 @@ class Server {
             ventas: "/api/ventas",
             compras: "/api/compras",
             notificaciones: "/api/notificaciones",
+            detallePedido: "/api/detallePedido",
+            encabezadoPedido: "/api/encabezadoPedido",
+            pedidos: "/api/pedidos",
         };
         this.app = express_1.default();
         this.port = process.env.PORT;
@@ -69,6 +75,9 @@ class Server {
         this.app.use(this.apiPaths.ventas, ventas_1.default);
         this.app.use(this.apiPaths.compras, compras_1.default);
         this.app.use(this.apiPaths.notificaciones, notificaciones_1.default);
+        this.app.use(this.apiPaths.detallePedido, detallePedido_1.default);
+        this.app.use(this.apiPaths.encabezadoPedido, encabezadoPedido_1.default);
+        this.app.use(this.apiPaths.pedidos, pedidos_1.default);
     }
     socket() {
         this.io.on("connection", (client) => {
@@ -82,9 +91,9 @@ class Server {
         const admin = require("firebase-admin");
         admin.initializeApp({
             credential: admin.credential.cert({
-                project_id: process.env['FIREBASE_PROJECT_ID'],
-                private_key: process.env['FIREBASE_PRIVATE_KEY'],
-                client_email: process.env['FIREBASE_CLIENT_EMAIL'],
+                project_id: process.env["FIREBASE_PROJECT_ID"],
+                private_key: process.env["FIREBASE_PRIVATE_KEY"],
+                client_email: process.env["FIREBASE_CLIENT_EMAIL"],
             }),
         });
     }

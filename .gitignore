@@ -2,5 +2,3 @@
 /node_modules
 #Variables de entornos
 .env
-#assets
-/assets

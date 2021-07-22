@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.notificacionBajoStock = exports.notificacionCambioPrecioProducto = exports.notificacionProductosPorCaducarse = exports.agregarTokenFirebase = exports.enviarNotificacion = void 0;
-const firebase_1 = __importDefault(require("../../models/firebase"));
+const firebase_1 = __importDefault(require("../models/firebase"));
 const sequelize_1 = require("sequelize");
-const operaciones_fechas_1 = require("../../helpers/operaciones-fechas");
-const producto_1 = __importDefault(require("../../models/producto"));
-const kardexExistencia_1 = __importDefault(require("../../models/kardexExistencia"));
+const operaciones_fechas_1 = require("../helpers/operaciones-fechas");
+const producto_1 = __importDefault(require("../models/producto"));
+const kardexExistencia_1 = __importDefault(require("../models/kardexExistencia"));
 const enviarNotificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const admin = require("firebase-admin");
     const listaConsulta = yield firebase_1.default.findAll({
@@ -190,6 +190,9 @@ const notificacionBajoStock = (req, res) => __awaiter(void 0, void 0, void 0, fu
             cantidad: {
                 [sequelize_1.Op.lte]: 6,
             },
+        },
+        include: {
+            model: producto_1.default
         },
         order: [["cantidad", "DESC"]],
     });

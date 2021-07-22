@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const listaCompras_1 = require("../controllers/test/listaCompras");
+const listaCompras_1 = require("../controllers/listaCompras");
 const validar_campos_1 = __importDefault(require("../middlewares/validar-campos"));
 const validar_jwt_1 = __importDefault(require("../middlewares/validar-jwt"));
 const router = express_1.Router();

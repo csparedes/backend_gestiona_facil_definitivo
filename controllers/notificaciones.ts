@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import Firebase from "../../models/firebase";
-
-import { productosPorCaducarse } from "../../helpers/operaciones-fechas";
-import Producto from "../../models/producto";
+import Firebase from "../models/firebase";
+import { Op } from "sequelize";
+import { productosPorCaducarse } from "../helpers/operaciones-fechas";
+import Producto from "../models/producto";
+import KardexExistencia from "../models/kardexExistencia";
 
 export const enviarNotificacion = async (req: Request, res: Response) => {
   const admin = require("firebase-admin");
@@ -144,8 +145,7 @@ export const notificacionCambioPrecioProducto = async (
     },
     attributes: ["token"],
   });
-  
-  
+
   const listaDispositivos: any[] = [];
   listaConsulta.forEach((value) => {
     //@ts-ignore
@@ -157,7 +157,7 @@ export const notificacionCambioPrecioProducto = async (
       //@ts-ignore
       texto: `El producto ${productoBuscado["nombre"]} ha sido actualizado, el precio de venta es: ${productoBuscado["precioVenta"]}`,
     },
-    tokens: listaDispositivos
+    tokens: listaDispositivos,
   };
   admin
     .messaging()
@@ -184,6 +184,70 @@ export const notificacionCambioPrecioProducto = async (
   }
 };
 
-
 //Notificación de productos con bajo stock
-//TODO: verificar requerimientos
+export const notificacionBajoStock = async (req: Request, res: Response) => {
+  const listaProductos = await KardexExistencia.findAll({
+    where: {
+      cantidad: {
+        [Op.lte]: 6,
+      },
+    },
+    include: {
+      model: Producto
+    },
+    order: [["cantidad", "DESC"]],
+  });
+  if (!listaProductos) {
+    res.status(400).json({
+      ok: false,
+      msg: "No hay productos con bajo stock, de hecho eso es algo bueno",
+    });
+  }
+
+  const admin = require("firebase-admin");
+  const listaConsulta = await Firebase.findAll({
+    where: {
+      estado: true,
+    },
+    attributes: ["token"],
+  });
+
+  const listaDispositivos: any[] = [];
+  listaConsulta.forEach((value) => {
+    //@ts-ignore
+    listaDispositivos.push(value["token"]);
+  });
+  let bandera = true;
+ 
+
+  listaProductos.forEach((value: any) => {
+    //@ts-ignore
+    const message = {
+      data: {
+        texto: `El producto: ${value["Producto"]["nombre"]} tiene bajo stock, con ${value["cantidad"]} existencias`,
+      },
+      tokens: listaDispositivos,
+    };
+    admin
+      .messaging()
+      .sendMulticast(message)
+      .then((respuesta: any) => {
+        bandera = true;
+      })
+      .catch((err: any) => {
+        bandera = false;
+      });
+  });
+ 
+  if (!bandera) {
+    res.status(400).json({
+      ok: bandera,
+      msg: "Hubo un error en el envío de la notificación",
+    });
+  } else {
+    res.json({
+      ok: bandera,
+      msg: "Se envío con éxito la notificación",
+    });
+  }
+};

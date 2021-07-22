@@ -11,6 +11,8 @@ import Proveedor from './proveedor';
 import EncabezadoCompra from './encabezadoCompra';
 import DetalleVenta from './detalleVenta';
 import DetalleCompra from './detalleCompra';
+import EncabezadoPedido from './encabezadoPedido';
+import DetallePedido from './detallePedido';
 
 //Asociación de usuario Rol
 Rol.hasOne(Usuario);
@@ -48,3 +50,11 @@ DetalleVenta.belongsTo(Producto);
 //Asociación de Detalle de Compra a Producto
 Producto.hasOne(DetalleCompra);
 DetalleCompra.belongsTo(Producto);
+
+//Asociación de Encabezado de pedido con proveedor
+Proveedor.hasOne(EncabezadoPedido);
+EncabezadoPedido.belongsTo(Proveedor);
+
+//Asociación de Detalle de Compra a Producto
+Producto.hasOne(DetallePedido);
+DetallePedido.belongsTo(Producto);
