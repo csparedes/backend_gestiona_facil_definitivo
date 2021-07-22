@@ -23,8 +23,6 @@ export const enviarNotificacion = async (req: Request, res: Response) => {
     data: {
       texto: "Una notificación de prueba desde NodeJs",
     },
-
-    // tokens: registrationTokens,
     tokens: listaDispositivos,
   };
 
