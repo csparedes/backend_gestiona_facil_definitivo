@@ -94,11 +94,22 @@ class Server {
   }
   firebaseCloudMessaging() {
     const admin = require("firebase-admin");
+    // var serviceAccount = require("../gestionafacil2021-firebase-adminsdk-ohgs5-f429a84acc.json");
+    // var serviceAccount = JSON.parse(process.env["FIREBASE_ADMIN_KEYS"]);
+
     admin.initializeApp({
+      // credential: admin.credential.cert({serviceAccount}),
       credential: admin.credential.cert({
+        type: process.env["FIREBASE_TYPE"],
         project_id: process.env["FIREBASE_PROJECT_ID"],
-        private_key: process.env["FIREBASE_PRIVATE_KEY"].toString(),
+        private_key_id: process.env["FIREBASE_PRIVATE_KEY_ID"],
+        private_key: process.env["FIREBASE_PRIVATE_KEY"].replace(/\\n/g, '\n'),
         client_email: process.env["FIREBASE_CLIENT_EMAIL"],
+        client_id: process.env["FIREBASE_CLIENT_ID"],
+        auth_uri: process.env["FIREBASE_AUTH_URI"],
+        token_uri: process.env["https://oauth2.googleapis.com/token"],
+        auth_provider_x509_cert_url: process.env["https://www.googleapis.com/oauth2/v1/certs"],
+        client_x509_cert_url: process.env["FIREBASE_CLIENT_X509_CERT_URL"]
       }),
     });
     

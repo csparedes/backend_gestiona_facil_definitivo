@@ -30,15 +30,11 @@ const enviarNotificacion = (req, res) => __awaiter(void 0, void 0, void 0, funct
     listaConsulta.forEach((value) => {
         //@ts-ignore
         listaDispositivos.push(value["token"]);
-        //@ts-ignore
-        console.log(`${value['token']}`);
     });
     const message = {
         data: {
-            producto: "Aqui va el producto",
-            //TODO: hacer notificación de producto a caducar, actalizacion y cuando falte producto
+            texto: "Una notificación de prueba desde NodeJs",
         },
-        // tokens: registrationTokens,
         tokens: listaDispositivos,
     };
     admin

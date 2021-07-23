@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postTokenFirebase = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
-require('../models/asociasiones');
+require("../models/asociasiones");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const rol_1 = __importDefault(require("../models/rol"));
@@ -24,9 +24,9 @@ const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         },
         include: {
             model: rol_1.default,
-            attributes: ['rol'],
+            attributes: ["rol"],
         },
-        attributes: ["nombre", "email", 'id'],
+        attributes: ["nombre", "email", "id"],
     });
     if (!usuarios) {
         return res.status(401).json({
@@ -42,11 +42,11 @@ exports.getUsuarios = getUsuarios;
 const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const usuario = yield usuario_1.default.findByPk(id, {
-        attributes: ['nombre', 'email'],
+        attributes: ["nombre", "email"],
         include: {
             model: rol_1.default,
-            attributes: ['rol']
-        }
+            attributes: ["rol"],
+        },
     });
     if (!usuario) {
         return res.status(401).json({
@@ -55,12 +55,34 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     res.json({
         msg: "Se encontró el usuario: " + id,
-        usuario
+        usuario,
     });
 });
 exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const nodemailer = require("nodemailer");
+    let bandera = true;
+    const transporter = nodemailer.createTransport({
+        host: "gesin.com.ec",
+        port: 465,
+        auth: {
+            user: "gestionafacil@gesin.com.ec",
+            pass: "gestionafacil",
+        },
+    });
     const { nombre, roleId, email, password } = req.body;
+    const mailOptions = {
+        from: "gestionafacil@gesin.com.ec",
+        to: email,
+        subject: "Entrega de Credenciales",
+        text: `Hola ${nombre}, bienvenid@ a Gestiona Fácil, una app para gestionar Víveres Stalin, tus credenciales de acceso al aplicatvo son: \nCorreo: ${email}\nContraseña: ${password}\n\nMuchas gracias por participar, y mucha suerte!!!`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            bandera = false;
+        }
+        bandera = true;
+    });
     const salt = bcrypt_1.default.genSaltSync();
     const nuevoUsuario = {
         nombre,
@@ -74,6 +96,7 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.json({
         msg: "Se ha creado un nuevo Usuario",
         usuario,
+        emailEnviado: true
     });
 });
 exports.postUsuario = postUsuario;
@@ -91,12 +114,12 @@ const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         nombre,
         roleId,
         email,
-        password: bcrypt_1.default.hashSync(password, salt)
+        password: bcrypt_1.default.hashSync(password, salt),
     };
     yield actualUsuario.update(nuevoUsuario);
     res.json({
         msg: "Usuario actualizado",
-        actualUsuario
+        actualUsuario,
     });
     // res.json({
     //   id,
@@ -114,7 +137,7 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     yield usuario.update({ estado: false });
     res.json({
-        msg: 'Se ha eliminado el usuario con id: ' + id
+        msg: "Se ha eliminado el usuario con id: " + id,
     });
 });
 exports.deleteUsuario = deleteUsuario;
@@ -124,14 +147,14 @@ const postTokenFirebase = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const usuario = yield usuario_1.default.findByPk(id);
     if (!usuario) {
         return res.status(400).json({
-            msg: 'No se ha encontrado ningún usuario',
+            msg: "No se ha encontrado ningún usuario",
         });
     }
     yield usuario.update({ firebase: token });
     res.json({
-        msg: 'Se ha asignado el token de firebase al usuario',
+        msg: "Se ha asignado el token de firebase al usuario",
         token,
-        usuario
+        usuario,
     });
 });
 exports.postTokenFirebase = postTokenFirebase;

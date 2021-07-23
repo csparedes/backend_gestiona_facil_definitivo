@@ -1,10 +1,8 @@
-require('../models/asociasiones');
+require("../models/asociasiones");
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Usuario from "../models/usuario";
 import Rol from "../models/rol";
-
-
 
 export const getUsuarios = async (req: Request, res: Response) => {
   const usuarios = await Usuario.findAll({
@@ -13,11 +11,9 @@ export const getUsuarios = async (req: Request, res: Response) => {
     },
     include: {
       model: Rol,
-      attributes: ['rol'],
-      
+      attributes: ["rol"],
     },
-    attributes: ["nombre", "email", 'id'],
-    
+    attributes: ["nombre", "email", "id"],
   });
   if (!usuarios) {
     return res.status(401).json({
@@ -31,12 +27,12 @@ export const getUsuarios = async (req: Request, res: Response) => {
 };
 export const getUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-    const usuario = await Usuario.findByPk(id, {
-      attributes: ['nombre', 'email'],
-      include: {
-        model: Rol,
-        attributes: ['rol']
-      }
+  const usuario = await Usuario.findByPk(id, {
+    attributes: ["nombre", "email"],
+    include: {
+      model: Rol,
+      attributes: ["rol"],
+    },
   });
   if (!usuario) {
     return res.status(401).json({
@@ -44,12 +40,37 @@ export const getUsuario = async (req: Request, res: Response) => {
     });
   }
   res.json({
-      msg: "Se encontró el usuario: " + id,
-      usuario
+    msg: "Se encontró el usuario: " + id,
+    usuario,
   });
 };
 export const postUsuario = async (req: Request, res: Response) => {
+  const nodemailer = require("nodemailer");
+  let bandera = true;
+  const transporter = nodemailer.createTransport({
+    host: "gesin.com.ec",
+    port: 465,
+    auth: {
+      user: "gestionafacil@gesin.com.ec",
+      pass: "gestionafacil",
+    },
+  });
   const { nombre, roleId, email, password } = req.body;
+
+  const mailOptions = {
+    from: "gestionafacil@gesin.com.ec",
+    to: email,
+    subject: "Entrega de Credenciales",
+    text: `Hola ${nombre}, bienvenid@ a Gestiona Fácil, una app para gestionar Víveres Stalin, tus credenciales de acceso al aplicatvo son: \nCorreo: ${email}\nContraseña: ${password}\n\nMuchas gracias por participar, y mucha suerte!!!`,
+  };
+
+  transporter.sendMail(mailOptions, (error: any, info: any) => {
+    if (error) {
+      bandera = false;
+    }
+    bandera = true;
+  });
+
   const salt = bcrypt.genSaltSync();
   const nuevoUsuario = {
     nombre,
@@ -64,32 +85,33 @@ export const postUsuario = async (req: Request, res: Response) => {
   res.json({
     msg: "Se ha creado un nuevo Usuario",
     usuario,
+    emailEnviado: true
   });
 };
-export const putUsuario = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const actualUsuario = await Usuario.findByPk(id);
-    const salt = bcrypt.genSaltSync();
-    if (!actualUsuario) {
-         return res.status(401).json({
-      msg: "No se ha encontrado ningún usuario",
-         });
-        
-    }
-    const { nombre, roleId, email, password } = req.body;
 
-    const nuevoUsuario = {
-        nombre,
-        roleId,
-        email,
-        password: bcrypt.hashSync(password, salt)
-    }
-    await actualUsuario.update(nuevoUsuario);
-    res.json({
-        msg: "Usuario actualizado",
-        actualUsuario
-    })
-    
+export const putUsuario = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const actualUsuario = await Usuario.findByPk(id);
+  const salt = bcrypt.genSaltSync();
+  if (!actualUsuario) {
+    return res.status(401).json({
+      msg: "No se ha encontrado ningún usuario",
+    });
+  }
+  const { nombre, roleId, email, password } = req.body;
+
+  const nuevoUsuario = {
+    nombre,
+    roleId,
+    email,
+    password: bcrypt.hashSync(password, salt),
+  };
+  await actualUsuario.update(nuevoUsuario);
+  res.json({
+    msg: "Usuario actualizado",
+    actualUsuario,
+  });
+
   // res.json({
   //   id,
   //   m: "put",
@@ -97,19 +119,17 @@ export const putUsuario = async (req: Request, res: Response) => {
 };
 export const deleteUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-    const usuario = await Usuario.findByPk(id);
-     if (!usuario) {
-         return res.status(401).json({
+  const usuario = await Usuario.findByPk(id);
+  if (!usuario) {
+    return res.status(401).json({
       msg: "No se ha encontrado ningún usuario",
-         });
-        
-    }
+    });
+  }
 
-    await usuario.update({ estado: false });
-    res.json({
-        msg:'Se ha eliminado el usuario con id: '+ id
-    })
-
+  await usuario.update({ estado: false });
+  res.json({
+    msg: "Se ha eliminado el usuario con id: " + id,
+  });
 };
 
 export const postTokenFirebase = async (req: Request, res: Response) => {
@@ -118,14 +138,14 @@ export const postTokenFirebase = async (req: Request, res: Response) => {
   const usuario = await Usuario.findByPk(id);
   if (!usuario) {
     return res.status(400).json({
-      msg: 'No se ha encontrado ningún usuario',
+      msg: "No se ha encontrado ningún usuario",
     });
   }
 
   await usuario.update({ firebase: token });
   res.json({
-    msg: 'Se ha asignado el token de firebase al usuario',
+    msg: "Se ha asignado el token de firebase al usuario",
     token,
-    usuario
-  })
-}
+    usuario,
+  });
+};
