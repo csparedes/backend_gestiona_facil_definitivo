@@ -59,7 +59,7 @@ const getProductoPorCodigo = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const { codigo } = req.params;
     const producto = yield producto_1.default.findOne({
         where: { codigo },
-        attributes: ['nombre', 'precioVenta', 'codigo'],
+        attributes: ['nombre', 'precioVenta', 'codigo', 'categoriumId'],
         include: categoria_1.default
     });
     if (!producto) {

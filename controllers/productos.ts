@@ -49,7 +49,7 @@ export const getProductoPorCodigo = async (req: Request, res: Response) => {
     const { codigo } = req.params;
     const producto = await Producto.findOne({
         where:{codigo},
-        attributes: ['nombre','precioVenta','codigo'],
+        attributes: ['nombre','precioVenta','codigo','categoriumId'],
         include: Categoria
     });
     if (!producto) {
