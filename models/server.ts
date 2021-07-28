@@ -19,6 +19,7 @@ import rutasNotificaciones from "../routes/notificaciones";
 import rutasDetallePedido from "../routes/detallePedido";
 import rutasEncabezadoPedido from "../routes/encabezadoPedido";
 import rutasPedidos from "../routes/pedidos";
+import rutasPerchas from "../routes/perchas";
 
 class Server {
   private app: Application;
@@ -44,6 +45,7 @@ class Server {
     detallePedido: "/api/detallePedido",
     encabezadoPedido: "/api/encabezadoPedido",
     pedidos: "/api/pedidos",
+    perchas: "/api/perchas"
   };
 
   constructor() {
@@ -81,6 +83,7 @@ class Server {
     this.app.use(this.apiPaths.detallePedido, rutasDetallePedido);
     this.app.use(this.apiPaths.encabezadoPedido, rutasEncabezadoPedido);
     this.app.use(this.apiPaths.pedidos, rutasPedidos);
+    this.app.use(this.apiPaths.perchas, rutasPerchas);
   }
 
   socket() {

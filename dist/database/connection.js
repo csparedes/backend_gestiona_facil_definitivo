@@ -7,11 +7,6 @@ const db = new sequelize_1.Sequelize('gesincom_gestionafacil', 'gesincom_cspared
     logging: false,
     port: 3306
 });
-// const db = new Sequelize('0rFoRC2A8k', '0rFoRC2A8k', 'iIKNYZGnmv', {
-//     host: 'remotemysql.com',
-//     dialect: 'mysql',
-//     // logging: false,
-// })
 // const db = new Sequelize('bdd-backend', 'root', '', {
 //     host: 'localhost',
 //     dialect: 'mysql',

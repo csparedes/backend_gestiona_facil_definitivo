@@ -23,6 +23,7 @@ const notificaciones_1 = __importDefault(require("../routes/notificaciones"));
 const detallePedido_1 = __importDefault(require("../routes/detallePedido"));
 const encabezadoPedido_1 = __importDefault(require("../routes/encabezadoPedido"));
 const pedidos_1 = __importDefault(require("../routes/pedidos"));
+const perchas_1 = __importDefault(require("../routes/perchas"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -44,6 +45,7 @@ class Server {
             detallePedido: "/api/detallePedido",
             encabezadoPedido: "/api/encabezadoPedido",
             pedidos: "/api/pedidos",
+            perchas: "/api/perchas"
         };
         this.app = express_1.default();
         this.port = process.env.PORT;
@@ -78,6 +80,7 @@ class Server {
         this.app.use(this.apiPaths.detallePedido, detallePedido_1.default);
         this.app.use(this.apiPaths.encabezadoPedido, encabezadoPedido_1.default);
         this.app.use(this.apiPaths.pedidos, pedidos_1.default);
+        this.app.use(this.apiPaths.perchas, perchas_1.default);
     }
     socket() {
         this.io.on("connection", (client) => {

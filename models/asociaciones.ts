@@ -13,6 +13,7 @@ import DetalleVenta from './detalleVenta';
 import DetalleCompra from './detalleCompra';
 import EncabezadoPedido from './encabezadoPedido';
 import DetallePedido from './detallePedido';
+import Percha from './perchas';
 
 //Asociación de usuario Rol
 Rol.hasOne(Usuario);
@@ -58,3 +59,7 @@ EncabezadoPedido.belongsTo(Proveedor);
 //Asociación de Detalle de Compra a Producto
 Producto.hasOne(DetallePedido);
 DetallePedido.belongsTo(Producto);
+
+// //Asociación de Perchas a Productos
+// Producto.hasMany(Percha);
+// Percha.belongsTo(Producto);

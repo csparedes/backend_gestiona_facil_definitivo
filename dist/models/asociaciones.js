@@ -51,4 +51,7 @@ encabezadoPedido_1.default.belongsTo(proveedor_1.default);
 //Asociación de Detalle de Compra a Producto
 producto_1.default.hasOne(detallePedido_1.default);
 detallePedido_1.default.belongsTo(producto_1.default);
+// //Asociación de Perchas a Productos
+// Producto.hasMany(Percha);
+// Percha.belongsTo(Producto);
 //# sourceMappingURL=asociaciones.js.map
