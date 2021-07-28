@@ -61,3 +61,22 @@ export const putCrearEnlaceCajaProducto = async (req: Request, res: Response) =>
         msg: "Se ha actualizado el enlace del producto"
     });
 }
+
+export const deleteEnlaceCajaProducto = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const perchaBuscada = await Percha.findByPk(id);
+    if (!perchaBuscada) {
+        return res.status(400).json({
+            msg: "No se encontró el enlace de los productos"
+        });
+    }
+
+   
+
+    perchaBuscada.update({estado: false});
+
+    res.json({
+        msg: "Se ha eliminado el enlace del producto"
+    });
+}
