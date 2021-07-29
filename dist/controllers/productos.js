@@ -79,10 +79,12 @@ const getProductoPorNombre = (req, res) => __awaiter(void 0, void 0, void 0, fun
         where: {
             nombre: {
                 [sequelize_1.Op.like]: `%${nombre}%`
-            }
+            },
+            estado: true
         },
         attributes: ['nombre', 'precioVenta', 'codigo'],
-        include: categoria_1.default
+        include: categoria_1.default,
+        order: [["createdAt", "DESC"]],
     });
     if (!productos) {
         return res.status(400).json({

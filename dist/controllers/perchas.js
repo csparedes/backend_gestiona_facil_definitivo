@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putCrearEnlaceCajaProducto = exports.postCrearEnlaceCajaProducto = exports.getPerchas = void 0;
+exports.deleteEnlaceCajaProducto = exports.putCrearEnlaceCajaProducto = exports.postCrearEnlaceCajaProducto = exports.getPerchas = void 0;
 const perchas_1 = __importDefault(require("../models/perchas"));
 const getPerchas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const perchas = yield perchas_1.default.findAll({
@@ -63,4 +63,18 @@ const putCrearEnlaceCajaProducto = (req, res) => __awaiter(void 0, void 0, void 
     });
 });
 exports.putCrearEnlaceCajaProducto = putCrearEnlaceCajaProducto;
+const deleteEnlaceCajaProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const perchaBuscada = yield perchas_1.default.findByPk(id);
+    if (!perchaBuscada) {
+        return res.status(400).json({
+            msg: "No se encontró el enlace de los productos"
+        });
+    }
+    perchaBuscada.update({ estado: false });
+    res.json({
+        msg: "Se ha eliminado el enlace del producto"
+    });
+});
+exports.deleteEnlaceCajaProducto = deleteEnlaceCajaProducto;
 //# sourceMappingURL=perchas.js.map

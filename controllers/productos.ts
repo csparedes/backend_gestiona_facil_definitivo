@@ -70,10 +70,12 @@ export const getProductoPorNombre = async (req: Request, res: Response) => {
         where: {
             nombre: {
                [Op.like]: `%${nombre}%`
-           }
+            },
+            estado: true
         },
         attributes: ['nombre','precioVenta','codigo'],
-        include: Categoria
+        include: Categoria,
+        order: [["createdAt", "DESC"]],
     });
     if (!productos) {
         return res.status(400).json({
