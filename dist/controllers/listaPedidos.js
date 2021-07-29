@@ -74,6 +74,7 @@ const getArticulosPedido = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getArticulosPedido = getArticulosPedido;
 const postListaProductosNotaPedido = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let bandera = true;
+    let razon = "Novedades: ";
     const { comprobante, proveedoreId, fechaPedido, totalPedido, listaProductos, comentario, } = req.body;
     const listaProductosAux = listaProductos;
     for (let producto of listaProductosAux) {

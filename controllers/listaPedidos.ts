@@ -65,8 +65,10 @@ export const getArticulosPedido = async (req: Request, res: Response) => {
 
 
 export const postListaProductosNotaPedido = async (req: Request, res: Response) => {
-    let bandera: boolean = true;
-
+   
+  
+  let bandera: boolean = true;
+  let razon: string = "Novedades: ";
   const {
     comprobante,
     proveedoreId,
