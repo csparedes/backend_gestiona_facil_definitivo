@@ -1,4 +1,4 @@
-require('../models/asociasiones');
+require('../models/asociaciones');
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import Producto from '../models/producto';

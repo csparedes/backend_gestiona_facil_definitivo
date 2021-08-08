@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProducto = exports.putProducto = exports.postProducto = exports.getProductosPorCategoria = exports.getProductoPorNombre = exports.getProductoPorCodigo = exports.getProducto = exports.getProductos = void 0;
-require('../models/asociasiones');
+require('../models/asociaciones');
 const sequelize_1 = require("sequelize");
 const producto_1 = __importDefault(require("../models/producto"));
 const categoria_1 = __importDefault(require("../models/categoria"));
