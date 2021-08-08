@@ -19,17 +19,10 @@ router.post("/", [
     express_validator_1.check("password", "El password debe tener más de 6 letras").isLength({
         min: 6,
     }),
-    // check('rol').custom(existeRol),
     validar_campos_1.default,
 ], usuarios_1.postUsuario);
 router.put("/:id", [
     validar_jwt_1.default,
-    // check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    // check("email").custom(existeEmail),
-    // check("password", "El password debe tener más de 6 letras").isLength({
-    //   min: 6,
-    // }),
-    // check("rol").custom(existeRol),
     validar_campos_1.default,
 ], usuarios_1.putUsuario);
 router.delete("/:id", [

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postTokenFirebase = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
-require("../models/asociasiones");
+require("../models/asociaciones");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const rol_1 = __importDefault(require("../models/rol"));

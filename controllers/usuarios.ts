@@ -1,4 +1,4 @@
-require("../models/asociasiones");
+require("../models/asociaciones");
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Usuario from "../models/usuario";

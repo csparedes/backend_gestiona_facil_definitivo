@@ -25,7 +25,6 @@ router.post(
     check("password", "El password debe tener más de 6 letras").isLength({
       min: 6,
     }),
-    // check('rol').custom(existeRol),
     validarCampos,
   ],
   postUsuario
@@ -34,12 +33,6 @@ router.put(
   "/:id",
   [
     validarJWT,
-    // check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    // check("email").custom(existeEmail),
-    // check("password", "El password debe tener más de 6 letras").isLength({
-    //   min: 6,
-    // }),
-    // check("rol").custom(existeRol),
     validarCampos,
   ],
   putUsuario
