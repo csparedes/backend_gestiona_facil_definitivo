@@ -41,7 +41,7 @@ export const getKardexExistencias = async (req: Request, res: Response) => {
       attributes: ["id", "nombre", "precioVenta", "codigo"],
     },
     attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
-    order: ['fechaCaducidad']
+    order: ["fechaCaducidad"],
   });
   res.json({
     msg: "Lista de Existencias",
@@ -73,6 +73,50 @@ export const getExistenciaPorCodigoProducto = async (
         { estado: true },
         //@ts-ignore
         { producto: producto.id },
+      ],
+    },
+  });
+
+  //Verificamos si existe en las existencias
+  if (!kardex) {
+    return res.status(400).json({
+      msg: "El producto existe, pero no hay en existencias",
+    });
+  }
+
+  res.json({
+    msg: "Existencia del producto",
+    producto,
+    kardex,
+  });
+};
+
+export const getExistenciaPorNombreProducto = async (
+  req: Request,
+  res: Response
+) => {
+  const { nombre } = req.params;
+  //buscamos el producto según el nombre
+  const producto = await Producto.findOne({
+    where: {
+      nombre: { [Op.like]: `%${nombre}%` },
+      estado: true,
+    },
+  });
+  //comprobamos si no existe el producto
+  if (!producto) {
+    return res.status(400).json({
+      msg: "No existe el producto",
+    });
+  }
+  //Si hay producto, le buscamos en las existencias
+
+  const kardex = await KardexExistencia.findOne({
+    where: {
+      [Op.and]: [
+        { estado: true },
+        //@ts-ignore
+        { productoId: producto.id },
       ],
     },
   });

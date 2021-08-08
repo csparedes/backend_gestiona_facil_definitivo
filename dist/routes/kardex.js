@@ -12,6 +12,7 @@ router.get("/ingresos", [validar_jwt_1.default, validar_campos_1.default], karde
 router.get("/salidas", [validar_jwt_1.default, validar_campos_1.default], kardex_1.getKardexSalidas);
 router.get("/existencias", [validar_jwt_1.default, validar_campos_1.default], kardex_1.getKardexExistencias);
 router.get("/existencias/:codigo", [validar_jwt_1.default, validar_campos_1.default], kardex_1.getExistenciaPorCodigoProducto);
+router.get("/existencias/producto/:nombre", [validar_jwt_1.default, validar_campos_1.default], kardex_1.getExistenciaPorNombreProducto);
 router.post("/ingresos", [validar_jwt_1.default, validar_campos_1.default], kardex_1.postIngresoPutExistenciaCompra);
 router.post("/salidas/:codigo/:cantidad", [validar_jwt_1.default, validar_campos_1.default], kardex_1.postSalidaPutExistenciaVenta);
 exports.default = router;

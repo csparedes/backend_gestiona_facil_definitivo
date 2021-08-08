@@ -22,7 +22,7 @@ export const postListaProductosFacturaVenta = async (
     comentario,
   } = req.body;
 
-  //Se agrega la lista a los diferentes kardex de ingreso y salida
+  //Se agrega la lista a los diferentes kardex de existencias y salida
 
   const listaProductosAux: Array<Object> = listaProductos;
   //Agregamos cada producto de la lista

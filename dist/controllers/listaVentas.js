@@ -23,7 +23,7 @@ const postListaProductosFacturaVenta = (req, res) => __awaiter(void 0, void 0, v
     let bandera = true;
     let razon = "Novedades: ";
     const { comprobante, clienteId, fechaVenta, totalVenta, listaProductos, comentario, } = req.body;
-    //Se agrega la lista a los diferentes kardex de ingreso y salida
+    //Se agrega la lista a los diferentes kardex de existencias y salida
     const listaProductosAux = listaProductos;
     //Agregamos cada producto de la lista
     for (let producto of listaProductosAux) {

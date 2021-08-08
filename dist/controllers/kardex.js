@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postSalidaPutExistenciaVenta = exports.postIngresoPutExistenciaCompra = exports.getExistenciaPorCodigoProducto = exports.getKardexExistencias = exports.getKardexSalidas = exports.getKardexIngresos = void 0;
+exports.postSalidaPutExistenciaVenta = exports.postIngresoPutExistenciaCompra = exports.getExistenciaPorNombreProducto = exports.getExistenciaPorCodigoProducto = exports.getKardexExistencias = exports.getKardexSalidas = exports.getKardexIngresos = void 0;
 const sequelize_1 = require("sequelize");
 const kardexExistencia_1 = __importDefault(require("../models/kardexExistencia"));
 const kardexIngreso_1 = __importDefault(require("../models/kardexIngreso"));
@@ -56,7 +56,7 @@ const getKardexExistencias = (req, res) => __awaiter(void 0, void 0, void 0, fun
             attributes: ["id", "nombre", "precioVenta", "codigo"],
         },
         attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
-        order: ['fechaCaducidad']
+        order: ["fechaCaducidad"],
     });
     res.json({
         msg: "Lista de Existencias",
@@ -101,6 +101,44 @@ const getExistenciaPorCodigoProducto = (req, res) => __awaiter(void 0, void 0, v
     });
 });
 exports.getExistenciaPorCodigoProducto = getExistenciaPorCodigoProducto;
+const getExistenciaPorNombreProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { nombre } = req.params;
+    //buscamos el producto según el nombre
+    const producto = yield producto_1.default.findOne({
+        where: {
+            nombre: { [sequelize_1.Op.like]: `%${nombre}%` },
+            estado: true,
+        },
+    });
+    //comprobamos si no existe el producto
+    if (!producto) {
+        return res.status(400).json({
+            msg: "No existe el producto",
+        });
+    }
+    //Si hay producto, le buscamos en las existencias
+    const kardex = yield kardexExistencia_1.default.findOne({
+        where: {
+            [sequelize_1.Op.and]: [
+                { estado: true },
+                //@ts-ignore
+                { productoId: producto.id },
+            ],
+        },
+    });
+    //Verificamos si existe en las existencias
+    if (!kardex) {
+        return res.status(400).json({
+            msg: "El producto existe, pero no hay en existencias",
+        });
+    }
+    res.json({
+        msg: "Existencia del producto",
+        producto,
+        kardex,
+    });
+});
+exports.getExistenciaPorNombreProducto = getExistenciaPorNombreProducto;
 const postIngresoPutExistenciaCompra = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Buscamos el producto
     const { fechaCaducidad, cantidad, valorUnitario, codigo } = req.body;

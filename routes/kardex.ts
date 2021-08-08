@@ -2,6 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import {
   getExistenciaPorCodigoProducto,
+  getExistenciaPorNombreProducto,
   getKardexExistencias,
   getKardexIngresos,
   getKardexSalidas,
@@ -20,6 +21,11 @@ router.get(
   "/existencias/:codigo",
   [validarJWT, validarCampos],
   getExistenciaPorCodigoProducto
+);
+router.get(
+  "/existencias/producto/:nombre",
+  [validarJWT, validarCampos],
+  getExistenciaPorNombreProducto
 );
 
 router.post(
