@@ -11,7 +11,6 @@ const db = new sequelize_1.Sequelize(process.env.CONN_BDD, process.env.CONN_USER
     host: process.env.HOST,
     dialect: 'mysql',
     logging: false,
-    port: 3306
 });
 exports.default = db;
 //# sourceMappingURL=connection.js.map
