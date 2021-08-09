@@ -5,7 +5,7 @@ import { Sequelize } from 'sequelize';
 //     dialect: 'mysql',
 //     logging: false,
 // })
-const db = new Sequelize(process.env.CONN_BDD, process.env.CONN_USER ,process.env.CONN_PASS, {
+const db = new Sequelize(process.env['CONN_BDD'], process.env['CONN_USER'] ,process.env['CONN_PASS'], {
     host: process.env.HOST,
     dialect: 'mysql',
     logging: false,
