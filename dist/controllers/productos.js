@@ -22,7 +22,7 @@ const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         where: {
             estado: true
         },
-        attributes: ['id', 'nombre', 'precioVenta', 'codigo'],
+        attributes: ['id', 'nombre', 'precioVenta', 'codigo', 'tieneIva'],
         include: {
             model: categoria_1.default,
             attributes: ['id', 'nombre']
@@ -42,7 +42,7 @@ exports.getProductos = getProductos;
 const getProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const producto = yield producto_1.default.findByPk(id, {
-        attributes: ['nombre', 'precioVenta', 'codigo']
+        attributes: ['nombre', 'precioVenta', 'codigo', 'tieneIva']
     });
     if (!producto) {
         return res.status(400).json({
@@ -82,7 +82,7 @@ const getProductoPorNombre = (req, res) => __awaiter(void 0, void 0, void 0, fun
             },
             estado: true
         },
-        attributes: ['nombre', 'precioVenta', 'codigo'],
+        attributes: ['nombre', 'precioVenta', 'codigo', 'tieneIva'],
         include: categoria_1.default,
         order: [["createdAt", "DESC"]],
     });
@@ -117,7 +117,7 @@ const getProductosPorCategoria = (req, res) => __awaiter(void 0, void 0, void 0,
 });
 exports.getProductosPorCategoria = getProductosPorCategoria;
 const postProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { nombre, categoriumId, codigo, precioVenta } = req.body;
+    const { nombre, categoriumId, codigo, precioVenta, tieneIva } = req.body;
     const productoCodigo = yield producto_1.default.findOne({
         where: { codigo }
     });
@@ -130,6 +130,7 @@ const postProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         nombre,
         categoriumId,
         codigo,
+        tieneIva,
         precioVenta,
         estado: true
     };
@@ -153,10 +154,11 @@ const putProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             msg: "El producto no existe en el inventario"
         });
     }
-    const { nombre, categoriumId, precioVenta } = req.body;
+    const { nombre, categoriumId, precioVenta, tieneIva } = req.body;
     const productoNuevo = {
         nombre,
         categoriumId,
+        tieneIva,
         codigo,
         precioVenta,
         estado: true

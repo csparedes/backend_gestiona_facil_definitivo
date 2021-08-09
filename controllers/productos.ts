@@ -9,7 +9,7 @@ export const getProductos = async (req: Request, res: Response) => {
         where: {
             estado:true
         },
-        attributes: ['id','nombre', 'precioVenta', 'codigo'],
+        attributes: ['id','nombre', 'precioVenta', 'codigo' , 'tieneIva'],
         include: {
             model: Categoria,
             attributes: ['id','nombre']
@@ -31,7 +31,7 @@ export const getProductos = async (req: Request, res: Response) => {
 export const getProducto = async (req: Request, res: Response) => {
     const { id } = req.params;
     const producto = await Producto.findByPk(id, {
-        attributes: ['nombre','precioVenta','codigo']
+        attributes: ['nombre','precioVenta','codigo', 'tieneIva']
     });
     if (!producto) {
         return res.status(400).json({
@@ -73,7 +73,7 @@ export const getProductoPorNombre = async (req: Request, res: Response) => {
             },
             estado: true
         },
-        attributes: ['nombre','precioVenta','codigo'],
+        attributes: ['nombre','precioVenta','codigo', 'tieneIva'],
         include: Categoria,
         order: [["createdAt", "DESC"]],
     });
@@ -112,7 +112,7 @@ export const getProductosPorCategoria = async (req: Request, res: Response) => {
 }
 
 export const postProducto = async (req: Request, res: Response) => {
-    const { nombre, categoriumId, codigo, precioVenta } = req.body;
+    const { nombre, categoriumId, codigo, precioVenta , tieneIva} = req.body;
     const productoCodigo = await Producto.findOne({
         where:{codigo}
     });
@@ -126,6 +126,7 @@ export const postProducto = async (req: Request, res: Response) => {
         nombre,
         categoriumId,
         codigo,
+        tieneIva,
         precioVenta,
         estado: true
     }
@@ -153,10 +154,11 @@ export const putProducto = async (req: Request, res: Response) => {
         })
     }
 
-    const { nombre, categoriumId, precioVenta } = req.body;
+    const { nombre, categoriumId, precioVenta, tieneIva } = req.body;
     const productoNuevo = {
         nombre,
         categoriumId,
+        tieneIva,
         codigo,
         precioVenta,
         estado: true

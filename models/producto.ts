@@ -10,6 +10,9 @@ const Producto = db.define('Productos', {
     codigo: {
         type: DataTypes.STRING
     },
+    tieneIva: {
+        type: DataTypes.BOOLEAN
+    },
     precioVenta: {
         type: DataTypes.DOUBLE
     },

@@ -15,6 +15,9 @@ const Producto = connection_1.default.define('Productos', {
     codigo: {
         type: sequelize_1.DataTypes.STRING
     },
+    tieneIva: {
+        type: sequelize_1.DataTypes.BOOLEAN
+    },
     precioVenta: {
         type: sequelize_1.DataTypes.DOUBLE
     },
