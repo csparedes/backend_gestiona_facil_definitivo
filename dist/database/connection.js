@@ -7,7 +7,7 @@ const sequelize_1 = require("sequelize");
 //     logging: false,
 // })
 const db = new sequelize_1.Sequelize(process.env['CONN_BDD'], process.env['CONN_USER'], process.env['CONN_PASS'], {
-    host: process.env.HOST,
+    host: process.env['CONN_HOST'],
     dialect: 'mysql',
     logging: false,
 });
