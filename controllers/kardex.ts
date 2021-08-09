@@ -38,7 +38,7 @@ export const getKardexExistencias = async (req: Request, res: Response) => {
     where: { estado: true },
     include: {
       model: Producto,
-      attributes: ["id", "nombre", "precioVenta", "codigo"],
+      attributes: ["id", "nombre", "precioVenta", "codigo", "categoriumId"],
     },
     attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
     order: ["fechaCaducidad"],

@@ -53,7 +53,7 @@ const getKardexExistencias = (req, res) => __awaiter(void 0, void 0, void 0, fun
         where: { estado: true },
         include: {
             model: producto_1.default,
-            attributes: ["id", "nombre", "precioVenta", "codigo"],
+            attributes: ["id", "nombre", "precioVenta", "codigo", "categoriumId"],
         },
         attributes: ["fechaCaducidad", "valorIngreso", "cantidad"],
         order: ["fechaCaducidad"],
