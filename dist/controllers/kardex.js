@@ -124,12 +124,12 @@ const getExistenciaPorNombreProducto = (req, res) => __awaiter(void 0, void 0, v
                 [sequelize_1.Op.and]: [
                     { estado: true },
                     //@ts-ignore
-                    { productoId: producto.id },
+                    { productoId: producto["id"] },
                 ],
             },
             include: {
-                model: producto_1.default
-            }
+                model: producto_1.default,
+            },
         });
         listaKardex.push(kardex);
     }

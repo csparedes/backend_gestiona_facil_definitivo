@@ -118,12 +118,12 @@ export const getExistenciaPorNombreProducto = async (
         [Op.and]: [
           { estado: true },
           //@ts-ignore
-          { productoId: producto.id },
+          { productoId: producto["id"] },
         ],
       },
       include: {
-        model: Producto
-      }
+        model: Producto,
+      },
     });
 
     listaKardex.push(kardex);
@@ -134,7 +134,6 @@ export const getExistenciaPorNombreProducto = async (
       msg: "Ha ocurrido un error",
     });
   }
-  
 
   res.json({
     msg: "Existencia del producto",
