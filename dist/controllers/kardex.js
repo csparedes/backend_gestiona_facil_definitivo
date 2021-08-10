@@ -104,38 +104,44 @@ exports.getExistenciaPorCodigoProducto = getExistenciaPorCodigoProducto;
 const getExistenciaPorNombreProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre } = req.params;
     //buscamos el producto según el nombre
-    const producto = yield producto_1.default.findAll({
+    const productos = yield producto_1.default.findAll({
         where: {
             nombre: { [sequelize_1.Op.like]: `%${nombre}%` },
             estado: true,
         },
     });
     //comprobamos si no existe el producto
-    if (!producto) {
+    if (!productos) {
         return res.status(400).json({
             msg: "No existe el producto",
         });
     }
+    const listaKardex = productos;
     //Si hay producto, le buscamos en las existencias
-    const kardex = yield kardexExistencia_1.default.findOne({
-        where: {
-            [sequelize_1.Op.and]: [
-                { estado: true },
-                //@ts-ignore
-                { productoId: producto.id },
-            ],
-        },
-    });
+    for (let producto in productos) {
+        const kardex = yield kardexExistencia_1.default.findOne({
+            where: {
+                [sequelize_1.Op.and]: [
+                    { estado: true },
+                    //@ts-ignore
+                    { productoId: producto.id },
+                ],
+            },
+            include: {
+                model: producto_1.default
+            }
+        });
+        listaKardex.push(kardex);
+    }
     //Verificamos si existe en las existencias
-    if (!kardex) {
+    if (!listaKardex) {
         return res.status(400).json({
-            msg: "El producto existe, pero no hay en existencias",
+            msg: "Ha ocurrido un error",
         });
     }
     res.json({
         msg: "Existencia del producto",
-        producto,
-        kardex,
+        listaKardex,
     });
 });
 exports.getExistenciaPorNombreProducto = getExistenciaPorNombreProducto;

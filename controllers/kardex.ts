@@ -97,41 +97,48 @@ export const getExistenciaPorNombreProducto = async (
 ) => {
   const { nombre } = req.params;
   //buscamos el producto según el nombre
-  const producto = await Producto.findAll({
+  const productos = await Producto.findAll({
     where: {
       nombre: { [Op.like]: `%${nombre}%` },
       estado: true,
     },
   });
   //comprobamos si no existe el producto
-  if (!producto) {
+  if (!productos) {
     return res.status(400).json({
       msg: "No existe el producto",
     });
   }
+
+  const listaKardex: Array<Object> = productos;
   //Si hay producto, le buscamos en las existencias
+  for (let producto in productos) {
+    const kardex = await KardexExistencia.findOne({
+      where: {
+        [Op.and]: [
+          { estado: true },
+          //@ts-ignore
+          { productoId: producto.id },
+        ],
+      },
+      include: {
+        model: Producto
+      }
+    });
 
-  const kardex = await KardexExistencia.findOne({
-    where: {
-      [Op.and]: [
-        { estado: true },
-        //@ts-ignore
-        { productoId: producto.id },
-      ],
-    },
-  });
-
+    listaKardex.push(kardex);
+  }
   //Verificamos si existe en las existencias
-  if (!kardex) {
+  if (!listaKardex) {
     return res.status(400).json({
-      msg: "El producto existe, pero no hay en existencias",
+      msg: "Ha ocurrido un error",
     });
   }
+  
 
   res.json({
     msg: "Existencia del producto",
-    producto,
-    kardex,
+    listaKardex,
   });
 };
 
