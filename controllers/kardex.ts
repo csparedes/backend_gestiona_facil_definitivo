@@ -97,7 +97,7 @@ export const getExistenciaPorNombreProducto = async (
 ) => {
   const { nombre } = req.params;
   //buscamos el producto según el nombre
-  const producto = await Producto.findOne({
+  const producto = await Producto.findAll({
     where: {
       nombre: { [Op.like]: `%${nombre}%` },
       estado: true,

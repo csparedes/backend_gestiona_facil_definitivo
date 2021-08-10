@@ -104,7 +104,7 @@ exports.getExistenciaPorCodigoProducto = getExistenciaPorCodigoProducto;
 const getExistenciaPorNombreProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre } = req.params;
     //buscamos el producto según el nombre
-    const producto = yield producto_1.default.findOne({
+    const producto = yield producto_1.default.findAll({
         where: {
             nombre: { [sequelize_1.Op.like]: `%${nombre}%` },
             estado: true,
