@@ -21,7 +21,7 @@ const detalleVenta_1 = __importDefault(require("../models/detalleVenta"));
 const encabezadoVenta_1 = __importDefault(require("../models/encabezadoVenta"));
 const postListaProductosFacturaVenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let bandera = true;
-    let razon = "Novedades: ";
+    let razon = "Novedades:";
     const { comprobante, clienteId, fechaVenta, totalVenta, listaProductos, comentario, } = req.body;
     //Se agrega la lista a los diferentes kardex de existencias y salida
     const listaProductosAux = listaProductos;
@@ -40,7 +40,7 @@ const postListaProductosFacturaVenta = (req, res) => __awaiter(void 0, void 0, v
         if (!productoBuscado) {
             bandera = false;
             //@ts-ignore
-            razon += `, El código del producto: ${producto["codigo"]} no existe en la base de datos`;
+            razon += ` El código del producto: ${producto["codigo"]} no existe en la base de datos.`;
             break;
         }
         //Hacemos la salida
@@ -69,7 +69,7 @@ const postListaProductosFacturaVenta = (req, res) => __awaiter(void 0, void 0, v
         let cant = exis.cantidad - parseFloat(producto["cantidad"]);
         if (cant <= 0) {
             bandera = false;
-            razon = ", No hay la cantidad disponible en la base de datos";
+            razon = " No hay la cantidad disponible en el Inventario.";
             break;
         }
         //Actualizamos las existencias
@@ -108,7 +108,7 @@ const postListaProductosFacturaVenta = (req, res) => __awaiter(void 0, void 0, v
             msg: "Ha salido todo muy bien",
             encabezado,
             bandera,
-            razon: razon + ",Sin novedades, todo ha salido bien :)",
+            razon: razon + " Sin novedades, todo ha salido bien :)",
         });
     }
 });

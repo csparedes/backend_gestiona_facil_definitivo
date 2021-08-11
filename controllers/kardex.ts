@@ -109,35 +109,34 @@ export const getExistenciaPorNombreProducto = async (
       msg: "No existe el producto",
     });
   }
-
-  const listaKardex: Array<Object> = productos;
-  //Si hay producto, le buscamos en las existencias
-  for (let producto in productos) {
-    const kardex = await KardexExistencia.findOne({
+  const listaKardex: Array<Object> = new Array<Object>();
+ 
+  for (let i = 0; i < productos.length; i++) {
+    const item = await KardexExistencia.findOne({
       where: {
-        [Op.and]: [
-          { estado: true },
-          //@ts-ignore
-          { productoId: producto["id"] },
-        ],
+        //@ts-ignore
+        productoId: productos[i].id,
+        estado: true,
       },
       include: {
-        model: Producto,
-      },
+        model: Producto
+      }
     });
-
-    listaKardex.push(kardex);
+    listaKardex.push(item);
+    
   }
+  
   //Verificamos si existe en las existencias
   if (!listaKardex) {
     return res.status(400).json({
       msg: "Ha ocurrido un error",
     });
   }
-
+  
   res.json({
     msg: "Existencia del producto",
     listaKardex,
+    productos,
   });
 };
 

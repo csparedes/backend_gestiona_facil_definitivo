@@ -12,7 +12,7 @@ export const postListaProductosFacturaVenta = async (
   res: Response
 ) => {
   let bandera: boolean = true;
-  let razon: string = "Novedades: ";
+  let razon: string = "Novedades:";
   const {
     comprobante,
     clienteId,
@@ -41,7 +41,7 @@ export const postListaProductosFacturaVenta = async (
     if (!productoBuscado) {
       bandera = false;
       //@ts-ignore
-      razon += `, El código del producto: ${producto["codigo"]} no existe en la base de datos`;
+      razon += ` El código del producto: ${producto["codigo"]} no existe en la base de datos.`;
       break;
     }
 
@@ -73,7 +73,7 @@ export const postListaProductosFacturaVenta = async (
 
     if (cant <= 0) {
       bandera = false;
-      razon = ", No hay la cantidad disponible en la base de datos";
+      razon = " No hay la cantidad disponible en el Inventario.";
       break;
     }
     //Actualizamos las existencias
@@ -115,7 +115,7 @@ export const postListaProductosFacturaVenta = async (
       msg: "Ha salido todo muy bien",
       encabezado,
       bandera,
-      razon: razon + ",Sin novedades, todo ha salido bien :)",
+      razon: razon + " Sin novedades, todo ha salido bien :)",
     });
   }
 };

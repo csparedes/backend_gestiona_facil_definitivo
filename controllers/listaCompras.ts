@@ -19,7 +19,7 @@ export const postListaProductosFacturaCompra = async (
     proveedoreId,
     fechaCompra,
     totalCompra,
-    listaProductos,
+    listaProductos, 
     comentario,
   } = req.body;
 
@@ -55,7 +55,8 @@ export const postListaProductosFacturaCompra = async (
 
     const ingreso = await KardexIngreso.build(ingresoNuevo);
     ingreso.save();
-
+    console.log(`ingreso: ${ingreso}`);
+    
     //Actualizamos el Kardex de Existenias
     const existencia = await KardexExistencia.findOne({
       where: {
@@ -87,6 +88,8 @@ export const postListaProductosFacturaCompra = async (
       //Si existe la actualizamos
       //@ts-ignore
       let cant: number = existencia.cantidad + parseFloat(producto["cantidad"]);
+      
+      
       existencia.update({ cantidad: cant });
     }
 
@@ -127,5 +130,6 @@ export const postListaProductosFacturaCompra = async (
   res.json({
     msg: "Se ha realizado la compra exitosamente",
     encabezado,
+    razon,
   });
 };

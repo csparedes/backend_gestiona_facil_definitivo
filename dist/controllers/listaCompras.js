@@ -53,6 +53,7 @@ const postListaProductosFacturaCompra = (req, res) => __awaiter(void 0, void 0, 
         };
         const ingreso = yield kardexIngreso_1.default.build(ingresoNuevo);
         ingreso.save();
+        console.log(`ingreso: ${ingreso}`);
         //Actualizamos el Kardex de Existenias
         const existencia = yield kardexExistencia_1.default.findOne({
             where: {
@@ -117,6 +118,7 @@ const postListaProductosFacturaCompra = (req, res) => __awaiter(void 0, void 0, 
     res.json({
         msg: "Se ha realizado la compra exitosamente",
         encabezado,
+        razon,
     });
 });
 exports.postListaProductosFacturaCompra = postListaProductosFacturaCompra;
