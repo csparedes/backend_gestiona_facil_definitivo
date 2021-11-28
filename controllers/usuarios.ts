@@ -48,17 +48,17 @@ export const postUsuario = async (req: Request, res: Response) => {
   const nodemailer = require("nodemailer");
   let bandera = true;
   const transporter = nodemailer.createTransport({
-    host: "gesin.com.ec",
+    host: process.env.CONN_HOST,
     port: 465,
     auth: {
-      user: "gestionafacil@gesin.com.ec",
-      pass: "gestionafacil",
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   });
   const { nombre, roleId, email, password } = req.body;
 
   const mailOptions = {
-    from: "gestionafacil@gesin.com.ec",
+    from: process.env.MAIL_USER,
     to: email,
     subject: "Entrega de Credenciales",
     text: `Hola ${nombre}, bienvenid@ a Gestiona Fácil, una app para gestionar Víveres Stalin, tus credenciales de acceso al aplicatvo son: \nCorreo: ${email}\nContraseña: ${password}\n\nMuchas gracias por participar, y mucha suerte!!!`,
