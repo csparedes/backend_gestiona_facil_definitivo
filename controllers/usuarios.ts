@@ -49,17 +49,17 @@ export const postUsuario = async (req: Request, res: Response) => {
   const nodemailer = require("nodemailer");
   let bandera = true;
   const transporter = nodemailer.createTransport({
-    host: process.env.CONN_HOST,
+    host: process.env["CONN_HOST"],
     port: 465,
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+      user: process.env["MAIL_USER"],
+      pass: process.env["MAIL_PASS"],
     },
   });
   const { nombre, roleId, email, password } = req.body;
 
   const mailOptions = {
-    from: process.env.MAIL_USER,
+    from: process.env["MAIL_USER"],
     to: email,
     subject: "Entrega de Credenciales",
     text: `Hola ${nombre}, bienvenid@ a Gestiona Fácil, una app para gestionar Víveres Stalin, tus credenciales de acceso al aplicatvo son: \nCorreo: ${email}\nContraseña: ${password}\n\nMuchas gracias por participar, y mucha suerte!!!`,
@@ -86,7 +86,7 @@ export const postUsuario = async (req: Request, res: Response) => {
   res.json({
     msg: "Se ha creado un nuevo Usuario",
     usuario,
-    emailEnviado: true
+    emailEnviado: bandera
   });
 };
 

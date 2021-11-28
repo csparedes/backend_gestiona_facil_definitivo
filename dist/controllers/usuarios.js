@@ -13,10 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postTokenFirebase = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
-require("../models/asociaciones");
+require('dotenv').config();
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const usuario_1 = __importDefault(require("../models/usuario"));
 const rol_1 = __importDefault(require("../models/rol"));
+require("../models/asociaciones");
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield usuario_1.default.findAll({
         where: {
@@ -63,16 +64,16 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const nodemailer = require("nodemailer");
     let bandera = true;
     const transporter = nodemailer.createTransport({
-        host: "gesin.com.ec",
+        host: process.env["CONN_HOST"],
         port: 465,
         auth: {
-            user: "gestionafacil@gesin.com.ec",
-            pass: "gestionafacil",
+            user: process.env["MAIL_USER"],
+            pass: process.env["MAIL_PASS"],
         },
     });
     const { nombre, roleId, email, password } = req.body;
     const mailOptions = {
-        from: "gestionafacil@gesin.com.ec",
+        from: process.env["MAIL_USER"],
         to: email,
         subject: "Entrega de Credenciales",
         text: `Hola ${nombre}, bienvenid@ a Gestiona Fácil, una app para gestionar Víveres Stalin, tus credenciales de acceso al aplicatvo son: \nCorreo: ${email}\nContraseña: ${password}\n\nMuchas gracias por participar, y mucha suerte!!!`,
@@ -96,7 +97,7 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.json({
         msg: "Se ha creado un nuevo Usuario",
         usuario,
-        emailEnviado: true
+        emailEnviado: bandera
     });
 });
 exports.postUsuario = postUsuario;
