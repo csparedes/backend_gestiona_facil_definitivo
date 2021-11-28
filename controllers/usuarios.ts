@@ -1,8 +1,9 @@
-require("../models/asociaciones");
+require('dotenv').config()
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Usuario from "../models/usuario";
 import Rol from "../models/rol";
+require("../models/asociaciones");
 
 export const getUsuarios = async (req: Request, res: Response) => {
   const usuarios = await Usuario.findAll({
